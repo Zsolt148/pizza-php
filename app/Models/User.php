@@ -2,8 +2,6 @@
 
 namespace App\Models;
 
-use PDO;
-
 class User extends Model
 {
 	protected $table = 'users';
@@ -19,8 +17,8 @@ class User extends Model
 	const ROLE_ADMIN = 'admin';
 
 	const ROLES = [
-		self::ROLE_USER => 'user',
-		self::ROLE_ADMIN => 'admin'
+		self::ROLE_USER => 'User',
+		self::ROLE_ADMIN => 'Admin'
 	];
 
 	/**

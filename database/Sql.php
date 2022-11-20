@@ -35,7 +35,7 @@ class Sql
 	 * @param $database
 	 * @return $this
 	 */
-	public function setConnection($host, $port, $user, $pass, $database): self
+	public function setConnection($host, $port, $user, $pass, $database) : self
 	{
 		$this->host = $host;
 		$this->port = $port;
@@ -50,7 +50,8 @@ class Sql
 	 * @return $this
 	 * @throws Exception
 	 */
-	public function makeConnection() {
+	public function makeConnection()
+	{
 
 		$dsn = 'mysql:host=' . $this->host . ';port=' . $this->port . ';dbname=' . $this->database;
 

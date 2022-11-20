@@ -31,6 +31,11 @@ abstract class Model implements ModelInterface, CrudInterface
 	protected $table = null;
 
 	/**
+	 * @var string
+	 */
+	protected $primaryKey = 'id';
+
+	/**
 	 * @var int
 	 */
 	protected $fetchMode = PDO::FETCH_ASSOC;
@@ -66,11 +71,11 @@ abstract class Model implements ModelInterface, CrudInterface
 	}
 
 	/**
-	 * @return int
+	 * @return string
 	 */
-	public function getId(): int
+	public function getPrimaryKey() : string
 	{
-		return $this->id;
+		return $this->primaryKey;
 	}
 
 	/**
@@ -90,7 +95,7 @@ abstract class Model implements ModelInterface, CrudInterface
 	 *
 	 * @return array
 	 */
-	public function getAll($joins = null): iterable
+	public function getAll($joins = null) : iterable
 	{
 		$query = "SELECT * FROM {$this->table}";
 
@@ -112,10 +117,10 @@ abstract class Model implements ModelInterface, CrudInterface
 	 */
 	public function find($idOrKey, $value = null)
 	{
-		$key = 'id';
+		$key = $this->getPrimaryKey();
 
-		// Only int is given then find by id
-		if(is_int($idOrKey) && !$value) {
+		// Only first param is given then find by primaryKey
+		if($idOrKey && !$value) {
 			$value = $idOrKey;
 		}
 
@@ -153,7 +158,7 @@ abstract class Model implements ModelInterface, CrudInterface
 	 *
 	 * @return integer The last insert ID
 	 */
-	public function insert(array $data): int
+	public function insert(array $data) : int
 	{
 		// Question marks
 		$marks = array_fill(0, count($data), '?');
@@ -185,7 +190,7 @@ abstract class Model implements ModelInterface, CrudInterface
 	 *
 	 * @return integer The updated ID
 	 */
-	public function update(int $id, array $data): int
+	public function update(int $id, array $data) : int
 	{
 		$this->findOrFail($id);
 
@@ -237,7 +242,7 @@ abstract class Model implements ModelInterface, CrudInterface
 	 *
 	 * @return object
 	 */
-	public function db(): PDO
+	public function db() : PDO
 	{
 		return static::$db;
 	}
