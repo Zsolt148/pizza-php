@@ -1,0 +1,6 @@
+/.idea
+/vendor
+/node_modules
+#/config/config.php
+#/public/css
+/public/js
