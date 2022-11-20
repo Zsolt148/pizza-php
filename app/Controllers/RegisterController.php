@@ -41,6 +41,7 @@ class RegisterController extends Controller
 			User::query()->insert([
 				'name' => $validated['name'],
 				'email' => $validated['email'],
+				'role' => User::ROLE_USER,
 				'password' => password_hash($validated['password'], PASSWORD_DEFAULT)
 			]);
 

@@ -5,49 +5,105 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<title><?php echo SITE_NAME; ?></title>
 
-    <link rel="stylesheet" href="/public/css/app.css">
-	<link rel="shortcut icon" type="image/x-icon" href="data:image/svg+xml,&lt;svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22&gt;&lt;text y=%22.9em%22 font-size=%2290%22&gt;💻&lt;/text&gt;&lt;/svg&gt;">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://unpkg.com/flowbite@1.5.4/dist/flowbite.min.css" />
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🍕</text></svg>">
 </head>
 <body>
 <section class="w-full px-6 pb-12 antialiased bg-white" data-tails-scripts="//unpkg.com/alpinejs">
     <div class="mx-auto max-w-7xl">
-        <nav class="relative z-50 h-24 select-none" x-data="{ showMenu: false }">
-            <div class="container relative flex flex-wrap items-center justify-between h-24 mx-auto overflow-hidden font-medium border-b border-gray-200 md:overflow-visible lg:justify-center sm:px-4 md:px-2 lg:px-0">
-                <div class="flex items-center justify-start w-1/4 h-full pr-4">
-                    <a href="#_" class="inline-block py-4 md:py-0">
-                        <span class="p-1 text-xl font-black leading-none text-gray-900"><?php echo SITE_NAME; ?>.</span>
-                    </a>
-                </div>
-                <div class="top-0 left-0 items-start hidden w-full h-full p-4 text-sm bg-gray-900 bg-opacity-50 md:items-center md:w-3/4 md:absolute lg:text-base md:bg-transparent md:p-0 md:relative md:flex" :class="{'flex fixed': showMenu, 'hidden': !showMenu }">
-                    <div class="flex-col w-full h-auto overflow-hidden bg-white rounded-lg md:bg-transparent md:overflow-visible md:rounded-none md:relative md:flex md:flex-row">
-                        <a href="<?php echo route($routes->get('home')) ?>" class="inline-flex items-center block w-auto h-16 px-6 text-xl font-black leading-none text-gray-900 md:hidden">Notebooks<span class="text-indigo-600">.</span></a>
-                        <div class="flex flex-col items-start justify-center w-full space-x-6 text-center lg:space-x-8 md:w-2/3 md:mt-0 md:flex-row md:items-center">
-                            <a href="<?php echo route($routes->get('home')) ?>" class="<?php echo isRoute($routes->get('home')) ? 'nav-link-active' : 'nav-link'; ?>">Home</a>
+        <nav class="bg-white px-2 sm:px-4 py-2.5 fixed w-full z-20 top-0 left-0 border-b border-gray-200">
+            <div class="container flex flex-wrap items-center justify-between mx-auto">
+                <a href="<?php echo route($routes->get('home')) ?>" class="flex items-center">
+                    <img src="https://flowbite.com/docs/images/logo.svg" class="h-6 mr-3 sm:h-9" alt="Flowbite Logo">
+                    <span class="self-center text-xl font-semibold whitespace-nowrap">
+                        <?php echo SITE_NAME; ?>
+                    </span>
+                </a>
+                <div class="flex md:order-2">
+					<?php if(!auth()->check()) : ?>
+                        <a href="<?php echo route($routes->get('login')) ?>" class="text-white bg-gradient-to-r from-blue-500 via-blue-600 to-blue-700 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-blue-300 shadow-lg shadow-blue-500/50 font-medium rounded-lg text-sm px-5 py-2.5 text-center">
+                            Sign In
+                        </a>
+					<?php else : ?>
+                        <button type="button" class="flex space-x-2" id="user-menu-button" aria-expanded="false" data-dropdown-toggle="user-dropdown" data-dropdown-placement="bottom">
+							<span>Hi <?php echo auth()->user()->name ?>!</span>
+                            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+                        </button>
+                        <!-- Dropdown menu -->
+                        <div class="z-50 hidden my-4 text-base list-none bg-white divide-y divide-gray-100 rounded shadow" id="user-dropdown">
+                            <div class="px-4 py-3">
+                                <span class="block text-sm text-gray-900"><?php echo auth()->user()->name ?></span>
+                                <span class="block text-sm font-medium text-gray-500 truncate"><?php echo auth()->user()->email ?></span>
+                            </div>
+                            <ul class="py-1" aria-labelledby="user-menu-button">
+                                <li>
+                                    <a href="<?php echo route($routes->get('logout')) ?>" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Sign out</a>
+                                </li>
+                            </ul>
                         </div>
-                        <div class="flex flex-col items-start justify-end w-full pt-4 md:items-center md:w-1/3 md:flex-row md:py-0">
-                            <?php if(!auth()->check()) : ?>
-                                <a href="<?php echo route($routes->get('login')) ?>" class="w-full px-3 py-2 mr-0 text-gray-700 md:mr-2 lg:mr-3 md:w-auto">Sign In</a>
-                                <a href="<?php echo route($routes->get('register')) ?>" class="button-pill">Sign Up</a>
-                            <?php else : ?>
-                                <span class="w-full, px-3 py-2 mr-0 text-gray-700">
-                                    Hi <?php echo auth()->user()->name ?>!
-                                </span>
-                                <a href="<?php echo route($routes->get('logout')) ?>" class="button-pill">Logout</a>
-                            <?php endif; ?>
-                        </div>
-                    </div>
+					<?php endif; ?>
+                    <button data-collapse-toggle="navbar-sticky" type="button" class="inline-flex items-center p-2 text-sm text-gray-500 rounded-lg md:hidden hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-200" aria-controls="navbar-sticky" aria-expanded="false">
+                        <span class="sr-only">Open main menu</span>
+                        <svg class="w-6 h-6" aria-hidden="true" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M3 5a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zM3 10a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zM3 15a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1z" clip-rule="evenodd"></path></svg>
+                    </button>
                 </div>
-                <div @click="showMenu = !showMenu" class="absolute right-0 flex flex-col items-center items-end justify-center w-10 h-10 bg-white rounded-full cursor-pointer md:hidden hover:bg-gray-100">
-                    <svg class="w-6 h-6 text-gray-700" x-show="!showMenu" fill="none" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewBox="0 0 24 24" stroke="currentColor">
-                        <path d="M4 6h16M4 12h16M4 18h16" class=""></path>
-                    </svg>
-                    <svg class="w-6 h-6 text-gray-700" x-show="showMenu" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" style="display: none;">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
-                    </svg>
+                <div class="items-center justify-between hidden w-full md:flex md:w-auto md:order-1" id="navbar-sticky">
+                    <ul class="flex flex-col p-4 mt-4 border border-gray-100 rounded-lg bg-gray-50 md:flex-row md:space-x-8 md:mt-0 md:text-sm md:font-medium md:border-0 md:bg-white">
+                        <li>
+                            <a href="<?php echo route($routes->get('home')) ?>" class="block text-xl py-2 pl-3 pr-4 text-white bg-blue-700 rounded md:bg-transparent md:text-blue-700 md:p-0" aria-current="page">
+                                Home
+                            </a>
+                        </li>
+                        <li>
+                            <a href="#" class="block text-xl py-2 pl-3 pr-4 text-gray-700 rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-blue-700 md:p-0">Pizzas</a>
+                        </li>
+                        <li>
+                            <a href="#" class="block text-xl py-2 pl-3 pr-4 text-gray-700 rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-blue-700 md:p-0">Order</a>
+                        </li>
+                    </ul>
                 </div>
             </div>
         </nav>
+
+<!--        <nav class="relative z-50 h-24 select-none" x-data="{ showMenu: false }">-->
+<!--            <div class="container relative flex flex-wrap items-center justify-between h-24 mx-auto overflow-hidden font-medium border-b border-gray-200 md:overflow-visible lg:justify-center sm:px-4 md:px-2 lg:px-0">-->
+<!--                <div class="flex items-center justify-start w-1/4 h-full pr-4">-->
+<!--                    <a href="#_" class="inline-block py-4 md:py-0">-->
+<!--                        <span class="p-1 text-xl font-black leading-none text-gray-900">--><?php //echo SITE_NAME; ?><!--.</span>-->
+<!--                    </a>-->
+<!--                </div>-->
+<!--                <div class="top-0 left-0 items-start hidden w-full h-full p-4 text-sm bg-gray-900 bg-opacity-50 md:items-center md:w-3/4 md:absolute lg:text-base md:bg-transparent md:p-0 md:relative md:flex" :class="{'flex fixed': showMenu, 'hidden': !showMenu }">-->
+<!--                    <div class="flex-col w-full h-auto overflow-hidden bg-white rounded-lg md:bg-transparent md:overflow-visible md:rounded-none md:relative md:flex md:flex-row">-->
+<!--                        <a href="--><?php //echo route($routes->get('home')) ?><!--" class="inline-flex items-center block w-auto h-16 px-6 text-xl font-black leading-none text-gray-900 md:hidden">Notebooks<span class="text-indigo-600">.</span></a>-->
+<!--                        <div class="flex flex-col items-start justify-center w-full space-x-6 text-center lg:space-x-8 md:w-2/3 md:mt-0 md:flex-row md:items-center">-->
+<!--                            <a href="--><?php //echo route($routes->get('home')) ?><!--" class="--><?php //echo isRoute($routes->get('home')) ? 'nav-link-active' : 'nav-link'; ?><!--">Home</a>-->
+<!--                        </div>-->
+<!--                        <div class="flex flex-col items-start justify-end w-full pt-4 md:items-center md:w-1/3 md:flex-row md:py-0">-->
+<!--                            --><?php //if(!auth()->check()) : ?>
+<!--                                <a href="--><?php //echo route($routes->get('login')) ?><!--" class="w-full px-3 py-2 mr-0 text-gray-700 md:mr-2 lg:mr-3 md:w-auto">Sign In</a>-->
+<!--                                <a href="--><?php //echo route($routes->get('register')) ?><!--" class="button-pill">Sign Up</a>-->
+<!--                            --><?php //else : ?>
+<!--                                <span class="w-full, px-3 py-2 mr-0 text-gray-700">-->
+<!--                                    Hi --><?php //echo auth()->user()->name ?><!--!-->
+<!--                                </span>-->
+<!--                                <a href="--><?php //echo route($routes->get('logout')) ?><!--" class="button-pill">Logout</a>-->
+<!--                            --><?php //endif; ?>
+<!--                        </div>-->
+<!--                    </div>-->
+<!--                </div>-->
+<!--                <div @click="showMenu = !showMenu" class="absolute right-0 flex flex-col items-center items-end justify-center w-10 h-10 bg-white rounded-full cursor-pointer md:hidden hover:bg-gray-100">-->
+<!--                    <svg class="w-6 h-6 text-gray-700" x-show="!showMenu" fill="none" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewBox="0 0 24 24" stroke="currentColor">-->
+<!--                        <path d="M4 6h16M4 12h16M4 18h16" class=""></path>-->
+<!--                    </svg>-->
+<!--                    <svg class="w-6 h-6 text-gray-700" x-show="showMenu" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" style="display: none;">-->
+<!--                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>-->
+<!--                    </svg>-->
+<!--                </div>-->
+<!--            </div>-->
+<!--        </nav>-->
+
     </div>
 </section>
 
-<main class="overflow-x-hidden flex-grow">
+<main class="overflow-x-hidden">
