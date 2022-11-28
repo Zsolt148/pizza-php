@@ -9,7 +9,7 @@ class Auth
 	/**
 	 * @return static
 	 */
-	public static function make() : static
+	public static function make()
 	{
 		return (new static);
 	}
@@ -52,6 +52,15 @@ class Auth
 	public function role()
 	{
 		return self::user()?->role;
+	}
+
+	/**
+	 * @param string $role
+	 * @return bool
+	 */
+	public function hasRole(string $role)
+	{
+		return $this->role() == $role;
 	}
 
 	/**

@@ -5,7 +5,7 @@ use PDO;
 
 interface ModelInterface
 {
-	public static function query() : static;
+	public static function query();
 
     public function getPrimaryKey() : string;
 

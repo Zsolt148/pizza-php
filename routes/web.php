@@ -2,10 +2,7 @@
 
 use App\Controllers\HomeController;
 use App\Controllers\AuthenticateController;
-use App\Controllers\NotebookController;
-use App\Controllers\OpsystemController;
-use App\Controllers\ProcessorController;
-use App\Controllers\MNBController;
+use App\Controllers\PizzaController;
 use App\Controllers\RegisterController;
 use App\Helpers\Route;
 use App\Helpers\RouteCollection;
@@ -20,3 +17,7 @@ $routes->add('logout', Route::get('/logout', [AuthenticateController::class, 'lo
 
 $routes->add('register', Route::get('/register', [RegisterController::class, 'index']));
 $routes->add('register.post', Route::post('/register/post', [RegisterController::class, 'register']));
+
+$routes->add('pizzas.index', Route::get('/pizzas', [PizzaController::class, 'index']));
+$routes->add('pizzas.create', Route::get('/pizzas/create', [PizzaController::class, 'create']));
+$routes->add('pizzas.store', Route::post('/pizzas/store', [PizzaController::class, 'store']));

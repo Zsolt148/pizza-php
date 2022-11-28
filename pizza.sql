@@ -26,6 +26,23 @@ PRIMARY KEY (`id`)
 INSERT INTO `users` (`id`, `name`, `email`, `role`, `password`) VALUES
 ('1', 'Admin', 'admin@admin.com', 'admin', '$2y$10$7VpBgrSgogoMtUmiEq.DYuJ3siaJKXW20CKfKsnVfjlRyO2hyAnce');
 
+DROP TABLE IF EXISTS `menus`;
+CREATE TABLE `menus` (
+                         `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+                         `name` varchar(255) COLLATE utf8_hungarian_ci NOT NULL,
+                         `route` varchar(255) COLLATE utf8_hungarian_ci NOT NULL,
+                         `parent_id` int(10) unsigned NULL DEFAULT NULL,
+                         PRIMARY KEY (`id`)
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_hungarian_ci;
+
+INSERT INTO `menus` (`id`, `name`, `route`, `parent_id`) VALUES
+    ('1', 'Home', 'home', null),
+    ('2', 'Pizzas', 'pizzas.index', null),
+    ('3', 'Order', 'orders.create', null),
+    ('4', 'All orders', 'orders.index', 3),
+    ('5', 'Export orders', 'orders.export', 3),
+    ('6', 'Create new order', 'orders.create', 3);
+
 DROP TABLE IF EXISTS `categories`;
 CREATE TABLE `categories` (
 `name` varchar(255) NOT NULL,

@@ -139,3 +139,14 @@ function arrays_equals(array $a, array $b) : bool
 		array_diff($a, $b) === array_diff($b, $a)
 	);
 }
+
+if (!function_exists('str_contains')) {
+	/**
+	 * @param $haystack
+	 * @param $needle
+	 * @return bool
+	 */
+	function str_contains($haystack, $needle) {
+		return $needle !== '' && mb_strpos($haystack, $needle) !== false;
+	}
+}
