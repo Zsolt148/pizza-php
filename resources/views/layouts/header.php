@@ -61,7 +61,7 @@
 									<?php foreach($menu['children'] as $sub) : ?>
                                         <ul class="py-1" aria-labelledby="order-menu-button-<?php echo $sub['id'] ?>">
                                             <li>
-                                                <a href="<?php //echo route($routes->get($sub['route'])) ?>" class="block px-4 py-2 text-gray-700 hover:bg-gray-100"><?php echo $sub['name'] ?></a>
+                                                <a href="<?php echo route($routes->get($sub['route'])) ?>" class="block px-4 py-2 text-gray-700 hover:bg-gray-100"><?php echo $sub['name'] ?></a>
                                             </li>
                                         </ul>
                                     <?php endforeach; ?>
