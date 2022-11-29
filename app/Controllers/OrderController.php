@@ -9,7 +9,7 @@ use App\Models\Category;
 
 class OrderController extends Controller
 {
-    protected $folder = 'orders';
+	protected $folder = 'orders';
 
 	/**
 	 * @param RouteCollection $routes
@@ -48,59 +48,59 @@ class OrderController extends Controller
 		return $this->view('create');
 	}
 
-    /**
-     * @param int $id
+	/**
+	 * @param int $id
 	 * @return mixed
 	 */
-    public function export(int $id)
-    {
-        $this->view('export');
+	public function export(int $id)
+	{
+		$this->view('export');
 
-        try
-        {
-            $order = Order::query()->findOrFail($id);
-            $pizza = Pizza::query()->findOrFail('name', $order['pizza_name']);
-            $category = Category::query()->findOrFail('name', $pizza['category_name']);
+		try
+		{
+			$order = Order::query()->findOrFail($id);
+			$pizza = Pizza::query()->findOrFail('name', $order['pizza_name']);
+			$category = Category::query()->findOrFail('name', $pizza['category_name']);
 
-            // Include the main TCPDF library
-            require_once('tcpdf/tcpdf.php');
+			// Include the main TCPDF library
+			require_once('tcpdf/tcpdf.php');
 
-            // create new PDF document
-            $pdf = new TCPDF(PDF_PAGE_ORIENTATION, PDF_UNIT, PDF_PAGE_FORMAT, true, 'UTF-8', false);
+			// create new PDF document
+			$pdf = new TCPDF(PDF_PAGE_ORIENTATION, PDF_UNIT, PDF_PAGE_FORMAT, true, 'UTF-8', false);
 
-            // set document information
-            $pdf->SetCreator(PDF_CREATOR);
-            $pdf->SetAuthor('Pizza-php');
-            $pdf->SetTitle('Order');
-            $pdf->SetSubject('Downloaded order from Pizza-php');
-            $pdf->SetKeywords('TCPDF, PDF, Web-programozás II, Order, Pizza');
+			// set document information
+			$pdf->SetCreator(PDF_CREATOR);
+			$pdf->SetAuthor('Pizza-php');
+			$pdf->SetTitle('Order');
+			$pdf->SetSubject('Downloaded order from Pizza-php');
+			$pdf->SetKeywords('TCPDF, PDF, Web-programozás II, Order, Pizza');
 
-            // set default header data
-            $pdf->SetHeaderData("pizza.png", 25, "Exported order", "Exported from Pizzas-php\n".date('Y.m.d',time()));
+			// set default header data
+			$pdf->SetHeaderData("pizza.png", 25, "Exported order", "Exported from Pizzas-php\n".date('Y.m.d',time()));
 
-            // set header and footer fonts
-            $pdf->setHeaderFont(Array(PDF_FONT_NAME_MAIN, '', PDF_FONT_SIZE_MAIN));
-            $pdf->setFooterFont(Array(PDF_FONT_NAME_DATA, '', PDF_FONT_SIZE_DATA));
+			// set header and footer fonts
+			$pdf->setHeaderFont(Array(PDF_FONT_NAME_MAIN, '', PDF_FONT_SIZE_MAIN));
+			$pdf->setFooterFont(Array(PDF_FONT_NAME_DATA, '', PDF_FONT_SIZE_DATA));
 
-            // set default monospaced font
-            $pdf->SetDefaultMonospacedFont(PDF_FONT_MONOSPACED);
+			// set default monospaced font
+			$pdf->SetDefaultMonospacedFont(PDF_FONT_MONOSPACED);
 
-            // set margins
-            $pdf->SetMargins(PDF_MARGIN_LEFT, PDF_MARGIN_TOP, PDF_MARGIN_RIGHT);
-            $pdf->SetHeaderMargin(PDF_MARGIN_HEADER);
-            $pdf->SetFooterMargin(PDF_MARGIN_FOOTER);
+			// set margins
+			$pdf->SetMargins(PDF_MARGIN_LEFT, PDF_MARGIN_TOP, PDF_MARGIN_RIGHT);
+			$pdf->SetHeaderMargin(PDF_MARGIN_HEADER);
+			$pdf->SetFooterMargin(PDF_MARGIN_FOOTER);
 
-            // set auto page breaks
-            $pdf->SetAutoPageBreak(TRUE, PDF_MARGIN_BOTTOM);
+			// set auto page breaks
+			$pdf->SetAutoPageBreak(TRUE, PDF_MARGIN_BOTTOM);
 
-            // set font
-            $pdf->SetFont('helvetica', '', 10);
+			// set font
+			$pdf->SetFont('helvetica', '', 10);
 
-            // add a page
-            $pdf->AddPage();
+			// add a page
+			$pdf->AddPage();
 
-            // create the HTML content
-            $html  = '
+			// create the HTML content
+			$html  = '
                 <html>
                     <head>
                         <link rel="stylesheet" href="https://unpkg.com/flowbite@1.5.4/dist/flowbite.min.css" />
@@ -129,15 +129,15 @@ class OrderController extends Controller
                                     <td class="py-4 px-6">
                                         <span class="td-content">
             ';
-            if($pizza['is_vegetarian'] == 0)
-                $html .='
+			if($pizza['is_vegetarian'] == 0)
+				$html .='
                                             Not vegeterian
                 ';
-            else
-                $html .='
+			else
+				$html .='
                                             Vegeterian
                 ';
-            $html .='
+			$html .='
                                         </span>
                                     </td>
                                     <td class="py-4 px-6">
@@ -159,22 +159,43 @@ class OrderController extends Controller
                 </html>
             ';
 
-            $pdf->writeHTML($html, true, false, true, false, '');
+			$pdf->writeHTML($html, true, false, true, false, '');
 
-            //Close and output PDF document
-            $pdf->Output('order'.date('Y.m.d',time()).'.pdf', 'I');
-        }
-        catch(Exception $e)
-        {
-			return $this->view('orders.export', [
+			//Close and output PDF document
+			$pdf->Output('order'.date('Y.m.d',time()).'.pdf', 'I');
+		}
+		catch(Exception $e)
+		{
+			return $this->view('export', [
 				'errors' => $e->getMessage()
 			]);
 		}
 
-        return redirect(route($this->routes->get('orders')), 'Successfully exported');
-    }
+		return redirect(route($this->routes->get('orders')), 'Successfully exported');
+	}
 
-    /**
+	public function chart()
+	{
+		$orders = Order::query()
+			->raw("
+				SELECT pizza_name, COUNT(id) AS total FROM orders GROUP BY pizza_name ORDER BY total DESC;
+			");
+
+		$labels = [];
+		$data = [];
+
+		foreach($orders as $order) {
+			$labels[] = $order['pizza_name'];
+			$data[] = $order['total'];
+		}
+
+		return $this->view('chart', [
+			'labels' => $labels,
+			'data' => $data,
+		]);
+	}
+
+	/**
 	 * @return array
 	 */
 	private function rules()
@@ -182,8 +203,8 @@ class OrderController extends Controller
 		return [
 			'pizza_name' => ['required', 'string'],
 			'amount' => ['required'],
-            'ordered_at' => ['required'],
-            'delivery_at' => ['required']
+			'ordered_at' => ['required'],
+			'delivery_at' => ['required']
 		];
 	}
 }

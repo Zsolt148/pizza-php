@@ -11,7 +11,6 @@ class Route
 	private $func;
 
 	/**
-	 * Only GET or POST method
 	 * @var string $method
 	 */
 	private $method = 'GET';
@@ -51,6 +50,28 @@ class Route
 	{
 		return (new static($path, $action))
 			->setMethod('POST');
+	}
+
+	/**
+	 * @param string $path
+	 * @param array  $action
+	 * @return Route
+	 */
+	public static function put(string $path = '/', array $action = [])
+	{
+		return (new static($path, $action))
+			->setMethod('PUT');
+	}
+
+	/**
+	 * @param string $path
+	 * @param array  $action
+	 * @return Route
+	 */
+	public static function delete(string $path = '/', array $action = [])
+	{
+		return (new static($path, $action))
+			->setMethod('DELETE');
 	}
 
 	/**

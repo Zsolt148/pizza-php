@@ -39,9 +39,10 @@ INSERT INTO `menus` (`id`, `name`, `route`, `parent_id`) VALUES
     ('1', 'Home', 'home', null),
     ('2', 'Pizzas', 'pizzas.index', null),
     ('3', 'Order', 'orders.create', null),
-    ('4', 'All orders', 'orders.index', 3),
+    ('4', 'All orders', 'orders', 3),
     ('5', 'Export orders', 'orders.export', 3),
-    ('6', 'Create new order', 'orders.create', 3);
+    ('6', 'Chart', 'orders.chart', 3),
+    ('7', 'Create new order', 'orders.create', 3);
 
 DROP TABLE IF EXISTS `categories`;
 CREATE TABLE `categories` (

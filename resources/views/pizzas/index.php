@@ -25,7 +25,7 @@ include(APP_ROOT . "/resources/views/layouts/header.php");
                 </thead>
                 <tbody>
                 <?php foreach($pizzas as $pizza) { ?>
-                    <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
+                    <tr class="bg-white border-b">
                         <th scope="row" class="py-4 px-6 font-medium text-gray-900 whitespace-nowrap">
                             <span class="td-content"><?php echo $pizza['name']; ?></span>
                         </th>

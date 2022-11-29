@@ -33,9 +33,9 @@ abstract class Controller
 	 * @param array $rules
 	 * @return array
 	 */
-	public function validate(array $rules)
+	public function validate(array $rules, $data = null)
 	{
-		$post = $this->post;
+		$post = $data ?: $this->post;
 		$validated = [];
 
 		foreach($rules as $field => $rule) {
