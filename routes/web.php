@@ -25,4 +25,5 @@ $routes->add('pizzas.store', Route::post('/pizzas/store', [PizzaController::clas
 
 $routes->add('orders', Route::get('/orders', [OrderController::class, 'index']));
 $routes->add('orders.export', Route::get('/orders/export', [OrderController::class, 'export']));
+$routes->add('orders.download', Route::post('/orders/download', [OrderController::class, 'download']));
 $routes->add('orders.create', Route::get('/orders/create', [OrderController::class, 'create']));

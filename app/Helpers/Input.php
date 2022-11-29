@@ -3,6 +3,7 @@
 namespace App\Helpers;
 
 use Exception;
+use DateTime;
 
 class Input
 {
@@ -134,6 +135,22 @@ class Input
 		$value = filter_var($value, FILTER_VALIDATE_URL);
 		if($value === false) {
 			self::throwError(ucfirst($field) . ' must be a valid URL', 905);
+		}
+
+		return $value;
+	}
+
+	/**
+	 * @param $value
+	 * @return false|mixed
+	 * @throws Exception
+	 */
+	public static function datetime($field, $value)
+	{
+		$date = DateTime::createFromFormat('Y-m-d\TH:i', $value);
+		if(!$date || $date->format('Y-m-d\TH:i') <> $value)
+		{
+			self::throwError(ucfirst($field) . ' must be datetime', 906);
 		}
 
 		return $value;

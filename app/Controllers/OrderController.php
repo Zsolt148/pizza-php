@@ -6,6 +6,7 @@ use App\Helpers\RouteCollection;
 use App\Models\Order;
 use App\Models\Pizza;
 use App\Models\Category;
+use TCPDF;
 
 class OrderController extends Controller
 {
@@ -49,21 +50,42 @@ class OrderController extends Controller
 	}
 
     /**
-     * @param int $id
 	 * @return mixed
 	 */
-    public function export(int $id)
+    public function export()
     {
-        $this->view('export');
+        $orders = Pizza::query()
+			->raw("
+				SELECT orders.*, pizzas.category_name AS pizcat_name, pizzas.is_vegetarian AS veg, categories.name AS cat_name, categories.price AS cat_price
+				FROM orders
+                INNER JOIN pizzas ON orders.pizza_name=pizzas.name
+				INNER JOIN categories ON pizzas.category_name=categories.name
+				ORDER BY orders.ordered_at
+			");
 
+        return $this->view('export', [
+			'orders' => $orders
+		]);
+    }
+
+    /**
+	 * @return mixed
+	 */
+    public function download()
+    {
         try
         {
-            $order = Order::query()->findOrFail($id);
+            $validated = $this->validate([
+				'pizza_name' => ['required', 'string'],
+				'ordered_at' => ['required', 'datetime'],
+			]);
+
+            $order = Order::query()->findByArray($validated);
             $pizza = Pizza::query()->findOrFail('name', $order['pizza_name']);
             $category = Category::query()->findOrFail('name', $pizza['category_name']);
 
             // Include the main TCPDF library
-            require_once('tcpdf/tcpdf.php');
+            require_once('../tcpdf/tcpdf.php');
 
             // create new PDF document
             $pdf = new TCPDF(PDF_PAGE_ORIENTATION, PDF_UNIT, PDF_PAGE_FORMAT, true, 'UTF-8', false);
@@ -76,7 +98,7 @@ class OrderController extends Controller
             $pdf->SetKeywords('TCPDF, PDF, Web-programozás II, Order, Pizza');
 
             // set default header data
-            $pdf->SetHeaderData("pizza.png", 25, "Exported order", "Exported from Pizzas-php\n".date('Y.m.d',time()));
+            $pdf->SetHeaderData("../images/pizza.png", 25, "Exported order", "Exported from Pizzas-php\n".date('Y.m.d',time()));
 
             // set header and footer fonts
             $pdf->setHeaderFont(Array(PDF_FONT_NAME_MAIN, '', PDF_FONT_SIZE_MAIN));
@@ -162,16 +184,16 @@ class OrderController extends Controller
             $pdf->writeHTML($html, true, false, true, false, '');
 
             //Close and output PDF document
-            $pdf->Output('order'.date('Y.m.d',time()).'.pdf', 'I');
+            $pdf->Output('order'.date('Y.m.d',time()).'.pdf', 'I', '_blank');
         }
         catch(Exception $e)
         {
-			return $this->view('orders.export', [
+			return $this->view('export', [
 				'errors' => $e->getMessage()
 			]);
 		}
 
-        return redirect(route($this->routes->get('orders')), 'Successfully exported');
+        return redirect(route($this->routes->get('index')), 'Successfully exported');
     }
 
     /**

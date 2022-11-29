@@ -152,6 +152,33 @@ abstract class Model implements ModelInterface, CrudInterface
 	}
 
 	/**
+	 * Find record by an array of parameters
+	 * 
+	 * @param array $params A set of parameters
+	 * @return mixed
+	 */
+	public function findByArray(array $params)
+	{
+		$query = "SELECT * FROM {$this->table} WHERE ";
+		$i = 0;
+		$keys = array_keys($params);
+		foreach($params as $param)
+		{
+			if($i > 0)
+			{
+				$query = $query . "AND ";
+			}
+
+			$query = $query . "$keys[$i] = '$param' ";
+			$i = $i + 1;
+		}
+		
+		return $this->db()
+			->query($query)
+			->fetch($this->fetchMode);
+	}
+
+	/**
 	 * The insert method.
 	 *
 	 * @param array $data A set of data to be added to the database.
