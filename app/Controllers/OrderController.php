@@ -34,6 +34,92 @@ class OrderController extends Controller
 				ORDER BY orders.ordered_at
 			");
 
+		switch($_POST['op'])
+		{
+			case 'category':
+				$result = array("list" => array());
+				try
+				{
+					$categories = Category::query()->getAll();
+					foreach($categories as $category)
+					{
+						$result['list'][] = array("name" => $category["name"]);
+					}
+				}
+				catch (PDOException $e)
+				{
+					return $this->view('index', [
+						'errors' => $e->getMessage()
+					]);
+				}
+				echo json_encode($result);
+				break;
+			case 'pizza':
+				$result = array("list" => array());
+				try
+				{
+					$pizzas = Pizza::query()->raw("SELECT name FROM pizzas WHERE category_name = :catName");
+					foreach($pizzas as $pizza)
+					{
+						$result['list'][] = array("name" => $pizza["name"]);
+					}
+				}
+				catch (PDOException $e)
+				{
+					return $this->view('index', [
+						'errors' => $e->getMessage()
+					]);
+				}
+				echo json_encode($result);
+				break;
+			case 'ordered':
+				$result = array("list" => array());
+				try
+				{
+					$orders = Order::query()->raw("SELECT id, ordered_at FROM orders WHERE pizza_name = :pizName");
+					foreach($orders as $order)
+					{
+						$result['list'][] = array("id" => $order["id"], "ordered" => $order["ordered_at"]);
+					}
+				}
+				catch (PDOException $e)
+				{
+					return $this->view('index', [
+						'errors' => $e->getMessage()
+					]);
+				}
+				echo json_encode($result);
+				break;
+			case 'info':
+				$result = array("name" => "", "price" => "", "amount" => "", "ordered_at" => "", "delivery_at" => "");
+				try
+				{
+					$order = Order::query()
+						->raw("
+							SELECT orders.* pizzas.category_name AS pizcat_name, pizzas.is_vegetarian AS veg, categories.name AS cat_name, categories.price AS cat_price
+							FROM orders
+							INNER JOIN pizzas ON orders.pizza_name=pizzas.name
+							INNER JOIN categories ON pizzas.category_name=categories.name
+							WHERE orders.id = :id
+						");
+					$result = array(
+						"name" => $order["name"],
+						"price" => $order["cat_price"],
+						"amount" => $order["amount"],
+						"ordered_at" => $order["ordered_at"],
+						"delivery_at" => $order["delivery_at"]
+					);
+				}
+				catch (PDOException $e)
+				{
+					return $this->view('index', [
+						'errors' => $e->getMessage()
+					]);
+				}
+				echo json_encode($result);
+				break;
+		}
+
 		return $this->view('index', [
 			'orders' => $orders
 		]);
