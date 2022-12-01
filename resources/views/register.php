@@ -9,7 +9,7 @@ include(APP_ROOT . "/resources/views/layouts/header.php");
                         <h1 class="text-xl font-bold leading-tight tracking-tight text-gray-900 md:text-2xl">
                             Create your Account
                         </h1>
-						<?php include_once '../resources/views/shared/errors.php' ?>
+						<?php include_once APP_ROOT . '/resources/views/shared/errors.php' ?>
 
                         <form class="space-y-4 md:space-y-6" action="<?php echo route($routes->get('register.post')) ?>" method="POST">
                             <div>
