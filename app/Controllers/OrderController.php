@@ -189,7 +189,7 @@ class OrderController extends Controller
 			$pdf->SetKeywords('TCPDF, PDF, Web-programozás II, Order, Pizza');
 
             // set default header data
-            $pdf->SetHeaderData("../images/pizza.png", 25, "Exported order", "Exported from Pizzas-php\n".date('Y.m.d',time()));
+            $pdf->SetHeaderData("images/pizza.png", 25, "Exported order", "Exported from Pizzas-php\n".date('Y.m.d',time()));
 
 			// set header and footer fonts
 			$pdf->setHeaderFont(Array(PDF_FONT_NAME_MAIN, '', PDF_FONT_SIZE_MAIN));

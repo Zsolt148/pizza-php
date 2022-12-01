@@ -15,7 +15,7 @@ include(APP_ROOT . "/resources/views/layouts/header.php");
 				</a>
 			</div>
 			<div class="hidden lg:mt-0 lg:col-span-5 lg:flex">
-				<img src="/public/images/pizza.png" alt="mockup">
+				<img src="/images/pizza.png" alt="mockup">
 			</div>
 		</div>
 	</section>

@@ -2,7 +2,7 @@
 include(APP_ROOT . "/resources/views/layouts/header.php");
 ?>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-    <script type="text/javascript" src = "/public/js/orders.js"></script>
+    <script type="text/javascript" src = "/js/orders.js"></script>
     <section class="w-full px-6 pb-12 antialiased bg-white">
         <div class="max-w-7xl mx-auto">
             <h1 class="text-2xl font-semibold text-gray-700 mb-8">Order select</h1>
@@ -25,15 +25,15 @@ include(APP_ROOT . "/resources/views/layouts/header.php");
                     </div>
                 </div>
                 <div class="w-full mt-16 ml-20 md:mt-0 md:w-2/5">
-                    <span class="td-content">Pizza name:</span><span id="name" class="data"></span>
+                    <span class="td-content">Pizza name: </span><span id="name" class="data"></span>
                     <br>
-                    <span class="td-content">Price:</span><span id="price" class="data"></span>
+                    <span class="td-content">Price: </span><span id="price" class="data"></span>
                     <br>
-                    <span class="td-content">Amount:</span><span id="amount" class="data"></span>
+                    <span class="td-content">Amount: </span><span id="amount" class="data"></span>
                     <br>
-                    <span class="td-content">Ordered at:</span><span id="ordered_at" class="data"></span>
+                    <span class="td-content">Ordered at: </span><span id="ordered_at" class="data"></span>
                     <br>
-                    <span class="td-content">Delivered at:</span><span id="delivery_at" class="data"></span>
+                    <span class="td-content">Delivered at: </span><span id="delivery_at" class="data"></span>
                 </div>
             </div>
         </div>
