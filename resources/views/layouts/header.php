@@ -36,6 +36,7 @@
                             <div class="px-4 py-3">
                                 <span class="block text-sm text-gray-900"><?php echo auth()->user()->name ?></span>
                                 <span class="block text-sm font-medium text-gray-500 truncate"><?php echo auth()->user()->email ?></span>
+                                <span class="block text-sm font-medium text-gray-500 truncate">Role: <?php echo auth()->user()->role ?></span>
                             </div>
                             <ul class="py-1" aria-labelledby="user-menu-button">
                                 <li>

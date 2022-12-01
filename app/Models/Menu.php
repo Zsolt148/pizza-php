@@ -12,7 +12,7 @@ class Menu extends Model
 	public static function mapMenus()
 	{
 		$parents = self::query()
-			->raw("select MENUS.*, (select count(distinct m1.id) from MENUS as m1 where m1.parent_id = MENUS.id) as children_count from MENUS");
+			->raw("select menus.*, (select count(distinct m1.id) from menus as m1 where m1.parent_id = menus.id) as children_count from menus");
 
 		return self::recursive($parents);
 	}

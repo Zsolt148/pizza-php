@@ -51,7 +51,7 @@ class Auth
 	 */
 	public function role()
 	{
-		return self::user()?->role;
+		return self::user() ? self::user()->role : null;
 	}
 
 	/**

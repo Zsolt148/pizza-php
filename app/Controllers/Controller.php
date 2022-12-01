@@ -29,6 +29,11 @@ abstract class Controller
 		$this->post = $_POST;
 	}
 
+	public static function resolve(RouteCollection $routes)
+	{
+		return (new static($routes));
+	}
+
 	/**
 	 * @param array $rules
 	 * @return array

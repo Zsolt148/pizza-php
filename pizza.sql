@@ -7,11 +7,11 @@
 /*!40101 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='NO_AUTO_VALUE_ON_ZERO' */;
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
 
-DROP DATABASE IF EXISTS `pizza`;
-CREATE DATABASE IF NOT EXISTS `pizza`
-CHARACTER SET utf8 COLLATE utf8_general_ci;
-
-USE `pizza`;
+-- DROP DATABASE IF EXISTS `pizza`;
+-- CREATE DATABASE IF NOT EXISTS `pizza`
+-- CHARACTER SET utf8 COLLATE utf8_general_ci;
+--
+-- USE `pizza`;
 
 DROP TABLE IF EXISTS `users`;
 CREATE TABLE `users` (
@@ -24,7 +24,8 @@ PRIMARY KEY (`id`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_hungarian_ci;
 
 INSERT INTO `users` (`id`, `name`, `email`, `role`, `password`) VALUES
-('1', 'Admin', 'admin@admin.com', 'admin', '$2y$10$7VpBgrSgogoMtUmiEq.DYuJ3siaJKXW20CKfKsnVfjlRyO2hyAnce');
+('1', 'Admin', 'admin@admin.com', 'admin', '$2y$10$7VpBgrSgogoMtUmiEq.DYuJ3siaJKXW20CKfKsnVfjlRyO2hyAnce'),
+('2', 'User user', 'user@user.com', 'user', '$2y$10$EI9M0yiaAsDEbEIVQ.lnAethykjSft6FAWIHp.B/2Ez6JrsgR4RaG');
 
 DROP TABLE IF EXISTS `menus`;
 CREATE TABLE `menus` (

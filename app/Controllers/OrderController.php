@@ -172,8 +172,16 @@ class OrderController extends Controller
 			]);
 
             $order = Order::query()->findByArray($validated);
-            $pizza = Pizza::query()->findOrFail('name', $order['pizza_name']);
+            $pizza = Pizza::query()->find('name', $validated['pizza_name']);
+
+			if(!$pizza || !$order) {
+				return $this->view('export', [
+					'errors' => 'Pizza not found'
+				]);
+			}
+
             $category = Category::query()->findOrFail('name', $pizza['category_name']);
+
 
             // Include the main TCPDF library
             require_once('../tcpdf/tcpdf.php');

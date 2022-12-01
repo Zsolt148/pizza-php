@@ -1,5 +1,5 @@
 <?php
-include("../resources/views/layouts/header.php");
+include(APP_ROOT . "/resources/views/layouts/header.php");
 ?>
 	<section class="w-full px-6 pb-12 antialiased bg-white">
 		<div class="px-10 py-24 mx-auto max-w-7xl">
@@ -9,5 +9,5 @@ include("../resources/views/layouts/header.php");
 		</div>
 	</section>
 <?php
-include("../resources/views/layouts/footer.php");
+include(APP_ROOT . "/resources/views/layouts/footer.php");
 ?>

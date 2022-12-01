@@ -53,7 +53,7 @@ class Sql
 	public function makeConnection()
 	{
 
-		$dsn = 'mysql:host=' . $this->host . ';port=' . $this->port . ';dbname=' . $this->database;
+		$dsn = 'mysql:host=' . $this->host . ';port=' . $this->port . ';dbname=' . $this->database . ';charset=utf8';
 
 		try {
 			$this->pdo = new PDO($dsn, $this->user, $this->pass);

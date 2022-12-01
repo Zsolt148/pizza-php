@@ -1,9 +1,6 @@
 {
     "name": "zsolt148/pizza-php",
     "description": "Simple MVC PHP framework for pizza php.",
-    "require": {
-        "php": "^8.0"
-    },
     "autoload": {
         "psr-4": {
             "App\\": "app/",

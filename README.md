@@ -38,4 +38,7 @@ Login URL: /login
 ##### `email: admin@admin.com`
 ##### `password: admin`
 
+##### `email: user@user.com`
+##### `password: user`
+
 

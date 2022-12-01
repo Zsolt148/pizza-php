@@ -81,7 +81,7 @@ class Route
 	 */
 	public function handle(RouteCollection $routes, $method, ...$args)
 	{
-		$controller = new ($this->controller)($routes);
+		$controller = $this->controller::resolve($routes);
 
 		if($this->method !== $method) {
 			throw new Exception("Method [$method] is not allowed. Allowed methods: $this->method");
