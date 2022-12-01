@@ -29,7 +29,8 @@ $routes->add('api.orders.store', Route::post('/api/orders/store', [ApiOrderContr
 $routes->add('api.orders.update', Route::put('/api/orders/update', [ApiOrderController::class, 'update']));
 $routes->add('api.orders.delete', Route::put('/api/orders/delete', [ApiOrderController::class, 'delete']));
 
-$routes->add('orders', Route::get('/orders', [OrderController::class, 'index']));
+$routes->add('orders.index', Route::get('/orders', [OrderController::class, 'index']));
+$routes->add('orders.ajax', Route::get('/orders/ajax', [OrderController::class, 'ajax']));
 $routes->add('orders.export', Route::get('/orders/export', [OrderController::class, 'export']));
 $routes->add('orders.download', Route::post('/orders/download', [OrderController::class, 'download']));
 $routes->add('orders.chart', Route::get('/orders/chart', [OrderController::class, 'chart']));

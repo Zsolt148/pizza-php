@@ -32,9 +32,17 @@ class OrderController extends Controller
                 INNER JOIN pizzas ON orders.pizza_name=pizzas.name
 				INNER JOIN categories ON pizzas.category_name=categories.name
 				ORDER BY orders.ordered_at
+				LIMIT 100
 			");
 
-		switch($_POST['op'])
+		return $this->view('index', [
+			'orders' => $orders
+		]);
+	}
+
+	public function ajax()
+	{
+		switch($_GET['op'])
 		{
 			case 'category':
 				$result = array("list" => array());
@@ -58,7 +66,7 @@ class OrderController extends Controller
 				$result = array("list" => array());
 				try
 				{
-					$pizzas = Pizza::query()->raw("SELECT name FROM pizzas WHERE category_name = :catName");
+					$pizzas = Pizza::query()->raw("SELECT name FROM pizzas WHERE category_name = '{$_GET['catName']}'");
 					foreach($pizzas as $pizza)
 					{
 						$result['list'][] = array("name" => $pizza["name"]);
@@ -76,7 +84,7 @@ class OrderController extends Controller
 				$result = array("list" => array());
 				try
 				{
-					$orders = Order::query()->raw("SELECT id, ordered_at FROM orders WHERE pizza_name = :pizName");
+					$orders = Order::query()->raw("SELECT id, ordered_at FROM orders WHERE pizza_name = '{$_GET['pizzaName']}'");
 					foreach($orders as $order)
 					{
 						$result['list'][] = array("id" => $order["id"], "ordered" => $order["ordered_at"]);
@@ -96,15 +104,16 @@ class OrderController extends Controller
 				{
 					$order = Order::query()
 						->raw("
-							SELECT orders.* pizzas.category_name AS pizcat_name, pizzas.is_vegetarian AS veg, categories.name AS cat_name, categories.price AS cat_price
+							SELECT orders.*, pizzas.category_name AS pizcat_name, pizzas.is_vegetarian AS veg, categories.name AS cat_name, categories.price AS cat_price
 							FROM orders
 							INNER JOIN pizzas ON orders.pizza_name=pizzas.name
 							INNER JOIN categories ON pizzas.category_name=categories.name
-							WHERE orders.id = :id
-						");
+							WHERE orders.id = '{$_GET['id']}'
+						")[0];
+
 					$result = array(
-						"name" => $order["name"],
-						"price" => $order["cat_price"],
+						"name" => $order["pizza_name"],
+						"price" => $order["cat_price"] . " Ft",
 						"amount" => $order["amount"],
 						"ordered_at" => $order["ordered_at"],
 						"delivery_at" => $order["delivery_at"]
@@ -119,10 +128,6 @@ class OrderController extends Controller
 				echo json_encode($result);
 				break;
 		}
-
-		return $this->view('index', [
-			'orders' => $orders
-		]);
 	}
 
 	/**

@@ -1,12 +1,12 @@
 <?php
-include("../resources/views/layouts/header.php");
+include(APP_ROOT . "/resources/views/layouts/header.php");
 ?>
 <section class="w-full px-6 pb-12 antialiased bg-white">
     <div class="px-10 py-24 mx-auto max-w-7xl">
         <h1 class="text-2xl font-semibold text-gray-700 mb-8">Export order</h1>
 
         <?php include_once APP_ROOT . '/resources/views/shared/status.php' ?>
-		<?php include_once APP_ROOT . '../resources/views/shared/errors.php' ?>
+		<?php include_once APP_ROOT . '/resources/views/shared/errors.php' ?>
 
         <form class="space-y-4 md:space-y-6" target="_blank" action='<?php echo route($routes->get('orders.download')); ?>' method="POST">
             <div>
@@ -23,5 +23,5 @@ include("../resources/views/layouts/header.php");
     </div>
 </section>
 <?php
-include("../resources/views/layouts/footer.php");
+include(APP_ROOT . "/resources/views/layouts/footer.php");
 ?>

@@ -30,9 +30,9 @@
 5. Add ```127.0.0.1 pizza.test```
 6. Restart xampp and go to http://pizza.test in a browser
 
-### Admin ###
+### Login ###
 
-Admin URL: /admin
+Login URL: /login
 
 ##### Default credentials
 ##### `email: admin@admin.com`

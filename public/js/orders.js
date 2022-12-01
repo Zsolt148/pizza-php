@@ -1,19 +1,20 @@
 function category()
 {
-    $.post(
-        "orders.index",
-        {"op" : "category"},
-        function(data)
-        {
-            $("#categorySelect").html('<option value="0">Select...</option>');
-            var list = data.list;
-            for(i=0; i<list.length; i++)
-            {
-                $("#categorySelect").append('<option value="'+list[i].name+'">'+list[i].name+'</option>');
+    $(document).ready(function () {
+
+        $.ajax({
+            url: $("#categorySelect").data('route'),
+            data : {"op" : "category"},
+            success: function (resp) {
+                $("#categorySelect").html('<option value="0">Select...</option>');
+                let list = JSON.parse(resp).list;
+                for(i=0; i<list.length; i++)
+                {
+                    $("#categorySelect").append('<option value="'+list[i].name+'">'+list[i].name+'</option>');
+                }
             }
-        },
-        "json"
-    );
+        })
+    })
 }
 
 function pizza()
@@ -24,20 +25,17 @@ function pizza()
     var categoryName = $("#categorySelect").val();
     if (categoryName != "")
     {
-        $.post(
-            "orders.index",
-            {"op" : "pizza", "catName" : categoryName},
-            function(data)
-            {
+        $.ajax({
+            url: $("#categorySelect").data('route'),
+            data: {"op" : "pizza", "catName" : categoryName},
+            success: function(resp) {
                 $("#pizzaSelect").html('<option value="0">Select...</option>');
-                var list = data.list;
-                for(i=0; i<list.length; i++)
-                {
-                    $("#pizzaSelect").append('<option value="'+list[i].name+'">'+list[i].name+'</option>');
+                let list = JSON.parse(resp).list;
+                for (i = 0; i < list.length; i++) {
+                    $("#pizzaSelect").append('<option value="' + list[i].name + '">' + list[i].name + '</option>');
                 }
-            },
-            "json"
-        );
+            }
+        });
     }
 }
 
@@ -48,20 +46,18 @@ function ordered()
     var pizzaName = $("#pizzaSelect").val();
     if (pizzaName != "")
     {
-        $.post(
-            "orders.index",
-            {"op" : "ordered", "pizName" : pizzaName},
-            function(data)
-            {
+        $.ajax({
+            url: $("#categorySelect").data('route'),
+            data:  {"op" : "ordered", "pizzaName" : pizzaName},
+            success: function(resp) {
                 $("#orderedSelect").html('<option value="0">Select...</option>');
-                var list = data.list;
+                let list = JSON.parse(resp).list;
                 for(i=0; i<list.length; i++)
                 {
                     $("#orderedSelect").append('<option value="'+list[i].id+'">'+list[i].ordered+'</option>');
                 }
-            },
-            "json"
-        );
+            }
+        });
     }
 }
 
@@ -71,18 +67,18 @@ function order()
     var orderID = $("#orderedSelect").val();
     if (orderID != 0)
     {
-        $.post(
-            "orders.index",
-            {"op" : "info", "id" : orderID},
-            function(data) {
-                $("#name").text(data.name);
-                $("#price").text(data.price);
-                $("#amount").text(data.amount);
-                $("#ordered_at").text(data.ordered_at);
-                $("#delivery_at").text(data.delivery_at);
-            },
-            "json"                                                    
-        );
+        $.ajax({
+            url: $("#categorySelect").data('route'),
+            data:  {"op" : "info", "id" : orderID},
+            success: function(resp) {
+                let list = JSON.parse(resp);
+                $("#name").text(list.name);
+                $("#price").text(list.price);
+                $("#amount").text(list.amount);
+                $("#ordered_at").text(list.ordered_at);
+                $("#delivery_at").text(list.delivery_at);
+            }
+        });
     }
 }
 

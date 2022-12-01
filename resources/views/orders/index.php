@@ -7,15 +7,22 @@ include(APP_ROOT . "/resources/views/layouts/header.php");
         <div class="max-w-7xl mx-auto">
             <h1 class="text-2xl font-semibold text-gray-700 mb-8">Order select</h1>
             <div class="flex flex-col items-center md:flex-row">
-                <div class="grid grid-cols-2 gap-8 mt-6 sm:grid-cols-3">
-                    <label for="categorySelect">Category:</label>
-                    <select id="categorySelect" <?php echo isset($disabled) ? 'disabled' : '' ?>></select>
-                    <br>
-                    <label for="pizzaSelect">Pizza:</label>
-                    <select id="pizzaSelect" <?php echo isset($disabled) ? 'disabled' : '' ?>></select>
-                    <br>
-                    <label for="orderedSelect">Ordered at:</label>
-                    <select id="orderedSelect" <?php echo isset($disabled) ? 'disabled' : '' ?>></select>
+                <div class="flex flex-col space-y-2 w-full">
+                    <div>
+                        <label for="categorySelect" class="block mb-2 text-sm font-medium text-gray-900">Category:</label>
+                        <select id="categorySelect" data-route="<?php echo $routes->get('orders.ajax')->getPath(); ?>" <?php echo isset($disabled) ? 'disabled' : '' ?> class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5">
+                        </select>
+                    </div>
+                    <div>
+                        <label for="pizzaSelect" class="block mb-2 text-sm font-medium text-gray-900">Pizza:</label>
+                        <select id="pizzaSelect" <?php echo isset($disabled) ? 'disabled' : '' ?> class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5">
+                        </select>
+                    </div>
+                    <div>
+                        <label for="orderedSelect" class="block mb-2 text-sm font-medium text-gray-900">Ordered at:</label>
+                        <select id="orderedSelect" <?php echo isset($disabled) ? 'disabled' : '' ?> class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5">
+                        </select>
+                    </div>
                 </div>
                 <div class="w-full mt-16 ml-20 md:mt-0 md:w-2/5">
                     <span class="td-content">Pizza name:</span><span id="name" class="data"></span>
