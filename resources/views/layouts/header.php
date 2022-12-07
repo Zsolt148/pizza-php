@@ -61,11 +61,14 @@
                                 <!-- Dropdown menu -->
                                 <div class="z-50 hidden my-4 text-base font-medium list-none bg-white divide-y divide-gray-100 rounded shadow" id="order-dropdown">
 									<?php foreach($menu['children'] as $sub) : ?>
+                                    <?php if(\App\Helpers\Auth::role() !== 'admin' && in_array($sub['route'], ['orders.chart'])) : ?>
+                                    <?php else: ?>
                                         <ul class="py-1" aria-labelledby="order-menu-button-<?php echo $sub['id'] ?>">
                                             <li>
                                                 <a href="<?php echo route($routes->get($sub['route'])) ?>" class="block px-4 py-2 text-gray-700 hover:bg-gray-100"><?php echo $sub['name'] ?></a>
                                             </li>
                                         </ul>
+                                    <?php endif; ?>
                                     <?php endforeach; ?>
                                 </div>
                             <?php else : ?>

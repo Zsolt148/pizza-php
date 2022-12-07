@@ -2,6 +2,7 @@
 
 namespace App\Controllers;
 
+use App\Helpers\Auth;
 use App\Helpers\RouteCollection;
 use App\Models\Order;
 use App\Models\Pizza;
@@ -297,6 +298,8 @@ class OrderController extends Controller
 
 	public function chart()
 	{
+		abort_if(!Auth::role() == 'admin', 404);
+
 		$orders = Order::query()
 			->raw("
 				SELECT pizza_name, COUNT(id) AS total FROM orders GROUP BY pizza_name ORDER BY total DESC;

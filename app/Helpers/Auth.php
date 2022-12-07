@@ -49,7 +49,7 @@ class Auth
 	/**
 	 * @return string|null
 	 */
-	public function role()
+	public static function role()
 	{
 		return self::user() ? self::user()->role : null;
 	}
